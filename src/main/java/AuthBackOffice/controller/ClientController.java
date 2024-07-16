@@ -1,9 +1,6 @@
 package AuthBackOffice.controller;
 
-import static AuthBackOffice.api.ClientControllerEndpoint.ADD_CLIENT_ENDPOINT;
-import static AuthBackOffice.api.ClientControllerEndpoint.DELETE_CLIENT_ENDPOINT;
-import static AuthBackOffice.api.ClientControllerEndpoint.GET_CLIENT_ENDPOINT;
-import static AuthBackOffice.api.ClientControllerEndpoint.UPDATE_CLIENT_ENDPOINT;
+import static AuthBackOffice.api.ClientControllerEndpoint.*;
 import static AuthBackOffice.api.ValidationConctant.VALID_COMPANY_NAME_REGEXP;
 import static AuthBackOffice.api.ValidationMessage.MESSAGE_INVALID_COMPANY_NAME;
 
