@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -36,7 +35,7 @@ import lombok.experimental.FieldDefaults;
 
 @WebMvcTest(controllers = ClientController.class)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-class ClientControllerTest {
+class AddClientControllerTest {
 
 	@MockBean
 	ClientService clientService;
@@ -61,19 +60,20 @@ class ClientControllerTest {
 		createClientRequests.clear();
 		dataResponses.clear();
 		createClientRequests.addAll(Arrays.asList(
-						new CreateClientRequest(CORRECT_COMPANY_NAME, CORRECT_EMAIL, null, null),
+						new CreateClientRequest(CORRECT_COMPANY_NAME, CORRECT_EMAIL, CORRECT_COMPANY_URLS, null),
 						new CreateClientRequest(CORRECT_COMPANY_NAME.concat("1"), CORRECT_EMAIL, CORRECT_COMPANY_URLS, null),
 						new CreateClientRequest(CORRECT_COMPANY_NAME.concat("2"), CORRECT_EMAIL, CORRECT_COMPANY_URLS, CORRECT_MALICIOUS_IPs)));
 
 		dataResponses.addAll(Arrays.asList(
-				new ClientDataResponse(CORRECT_COMPANY_NAME, CORRECT_EMAIL, null, null),
+				new ClientDataResponse(CORRECT_COMPANY_NAME, CORRECT_EMAIL, CORRECT_COMPANY_URLS, null),
 				new ClientDataResponse(CORRECT_COMPANY_NAME.concat("1"), CORRECT_EMAIL, CORRECT_COMPANY_URLS, null),
 				new ClientDataResponse(CORRECT_COMPANY_NAME.concat("2"), CORRECT_EMAIL, CORRECT_COMPANY_URLS, CORRECT_MALICIOUS_IPs)));
 	}
 
 	/*
-	 * company can be created without company's urls, it's correct company can be
-	 * created without MALICIOUS_IPs, it's correct
+	 * company can't be created without company's mail
+	 * company can't be created without company's urls,
+	 * company can be created without MALICIOUS_IPs, it's correct
 	 */
 	@Test
 	@SneakyThrows
@@ -132,6 +132,35 @@ class ClientControllerTest {
 		res = executeAddClientValidException(createClientRequests.get(2));
 		assertTrue(res.getMessage().contains(MESSAGE_INVALID_EMAIL));
 
+	}
+	
+	@Test
+	@DisplayName("Invalid company's url")
+	void addClient_invalidCompanyUrl_badRequest() {
+		createClientRequests.get(0).setCompanyUrls(null);
+		GeneralErrorResponseValidation res = executeAddClientValidException(createClientRequests.get(0));
+		assertTrue(res.getMessage().contains(MESSAGE_NULL_OR_ENPTY_COMPANY_IP));
+		
+		createClientRequests.get(1).setCompanyUrls(Set.of());
+		res = executeAddClientValidException(createClientRequests.get(1));
+		assertTrue(res.getMessage().contains(MESSAGE_NULL_OR_ENPTY_COMPANY_IP));
+		
+		createClientRequests.get(2).setCompanyUrls(Set.of("123.123.123.11", ""));
+		res = executeAddClientValidException(createClientRequests.get(2));
+		assertTrue(res.getMessage().contains(MESSAGE_INVALID_COMPANY_IP));
+		
+		createClientRequests.get(2).setCompanyUrls(Set.of("123.123.123.11", "123.123.12"));
+		res = executeAddClientValidException(createClientRequests.get(2));
+		assertTrue(res.getMessage().contains(MESSAGE_INVALID_COMPANY_IP));
+		
+		createClientRequests.get(2).setCompanyUrls(Set.of("123.123.123.256"));
+		res = executeAddClientValidException(createClientRequests.get(2));
+		assertTrue(res.getMessage().contains(MESSAGE_INVALID_COMPANY_IP));
+		
+		createClientRequests.get(2).setCompanyUrls(new HashSet<>(Arrays.asList("123.123.123.11", null)));
+		res = executeAddClientValidException(createClientRequests.get(2));
+		assertTrue(res.getMessage().contains(MESSAGE_INVALID_COMPANY_IP));
+		
 	}
 
 	@SneakyThrows

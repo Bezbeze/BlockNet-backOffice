@@ -20,5 +20,4 @@ public class GlobalExceptionHandler {
 		return  new GeneralErrorResponseValidation(null, messages);
 	}
 
-
 }

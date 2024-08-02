@@ -5,8 +5,10 @@ import static AuthBackOffice.api.ValidationMessage.*;
 
 import java.util.Set;
 
+import AuthBackOffice.validation.ValidIpSet;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AccessLevel;
@@ -32,9 +34,10 @@ public class CreateClientRequest {
 	@Email(message = MESSAGE_INVALID_EMAIL)
 	String email;
 	
+	@NotEmpty(message = MESSAGE_NULL_OR_ENPTY_COMPANY_IP)
+	@ValidIpSet(message = MESSAGE_INVALID_COMPANY_IP)
 	Set<String> companyUrls;
 	
+	@ValidIpSet(message = MESSAGE_INVALID_MALICIOUS_IP)
 	Set<String> maliciousIp;
-	
-
 }

@@ -45,8 +45,12 @@ public class ClientController{
 
 	
 	@PutMapping(path = UPDATE_CLIENT_ENDPOINT)
-	public ClientDataResponse updateClient(@RequestBody @Valid UpdateClientRequest client) {
-		return clientService.updateClient(client);
+	public ClientDataResponse updateClient(
+			@PathVariable(required = true) 
+			@Pattern(regexp = VALID_COMPANY_NAME_REGEXP, message = MESSAGE_INVALID_COMPANY_NAME)
+			String companyName,
+			@RequestBody @Valid UpdateClientRequest client) {
+		return clientService.updateClient(companyName, client);
 	}
 
 	@DeleteMapping(path = DELETE_CLIENT_ENDPOINT)
