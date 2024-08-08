@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import AuthBackOffice.dto.request.CreateClientRequest;
 import AuthBackOffice.dto.request.UpdateClientRequest;
 import AuthBackOffice.dto.response.ClientDataResponse;
-import AuthBackOffice.service.imp.ClientService;
+import AuthBackOffice.service.ClientService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import lombok.AccessLevel;

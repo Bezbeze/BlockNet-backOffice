@@ -1,4 +1,4 @@
-package AuthBackOffice.service.imp;
+package AuthBackOffice.service;
 
 import AuthBackOffice.dto.request.CreateClientRequest;
 import AuthBackOffice.dto.request.UpdateClientRequest;

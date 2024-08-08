@@ -28,7 +28,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import AuthBackOffice.dto.request.CreateClientRequest;
 import AuthBackOffice.dto.response.ClientDataResponse;
 import AuthBackOffice.dto.response.GeneralErrorResponseValidation;
-import AuthBackOffice.service.imp.ClientService;
+import AuthBackOffice.service.ClientService;
 import lombok.AccessLevel;
 import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
